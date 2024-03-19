@@ -1,0 +1,175 @@
+{
+    "books": [
+      {
+        
+        "name": "The Bullet Swallower",
+        "author": "Elizabeth Gonzalez James",
+        "genre": "Contemporary & Historical Fiction",
+        "description": "An early favorite in this year’s Most Compelling Book Title competition, this magical-realism Western from Elizabeth Gonzalez James introduces the legendary bandido El Tragabalas. What starts in 1895 winds up in 1964, when Mexican singer Jaime Sonoro discovers he has inherited his ancestor’s otherworldly problems. Call it Cormac McCarthy meets Gabriel García Márquez."
+      },
+      {
+        "namee": "The Mayor of Maxwell Street",
+        "author": "Avery Cunningham",
+        "genre": "Contemporary & Historical Fiction",
+        "description": "Set in Prohibition-era Chicago, this extremely buzzy debut from Avery Cunningham is a kind of crime-fiction love story: Born into the Black upper class, reporter Nelly Sawyer is dedicated to exposing injustice in the shadows of Jim Crow America. Teaming with biracial speakeasy manager Jay Shorey, she aims to take down a notorious crime boss. Things get rough."
+    
+      },
+      {
+        "name": "The Women",
+        "author": "Kristin Hannah",
+        "genre": "Contemporary & Historical Fiction",
+        "description": "Kristin Hannah (The Nightingale) returns with the story of Frances “Frankie” McGrath, an idealistic young woman whose perception of America is forever changed when she volunteers as an army nurse during the Vietnam War. Hannah’s epic novel explores the legacy of the 1960s through the story of one woman gone to war."
+        
+      },
+      {
+        "name": "The Phoenix Crown",
+        "author": " Katie Quinn and Janie Chang",
+        "genre": "Contemporary & Historical Fiction",
+        "description": "In 1906 San Francisco, an apocalyptic earthquake brings together four very different women: a botanist, a painter, a singer, and a Chinatown artisan. Six years later, a long quest for justice leads to a mysterious millionaire, an opera costume ball in Paris, and a priceless relic of Beijing’s fallen Summer Palace."
+      },
+      {
+        "name": "Wandering Stars",
+        "author": "Tommy Orange",
+        "genre": "Contemporary & Historical Fiction",
+        "description": "Native American author Tommy Orange follows up on his 2018 novel, There There—a Pulitzer Prize finalist—with this sprawling new novel, which expands his already vast canvas of story and character. The interconnected narratives begin in 1864 Colorado and fractal out into a multigenerational chronicle of one family’s Cheyenne bloodline and “America’s war on its own people.”"
+      },
+      {
+        "name": "The Great Divide",
+        "author": "Cristina Henríquez",
+        "genre": "Contemporary & Historical Fiction",
+        "description": "If you are in the market for truly epic historical fiction, the latest from Cristina Henríquez chronicles the construction of the Panama Canal through the stories of a dozen intersecting lives: laborers, doctors, fishermen, soothsayers, and one courageous teenage girl. Bonus trivia: Author Henríquez’s father immigrated to the U.S. from Panama. "
+      },
+      {
+        "name": "James",
+        "author": "Percival Everett",
+        "genre": "Contemporary & Historical Fiction",
+        "description": "How’s this for a fantastic idea? James, the hugely anticipated new book from acclaimed novelist Percival Everett, is nothing less than a complete reimagining of Mark Twain’s immortal classic The Adventures of Huckleberry Finn. The twist: This time, the story is told from the perspective of Jim, the enslaved runaway who joins Huck on history’s most famous Mississippi adventure."
+      },
+      {
+        "name": "The Life Impossible",
+        "author": "Matt Haig",
+        "genre": "Contemporary & Historical Fiction",
+        "description": "Details are scarce on this new one coming in the summer from Matt Haig, author of 2020’s beloved existential parable The Midnight Library. But advance word suggests more life-affirming conjecture involving an unexpected inheritance, a new house, and a fresh start on life on the beautiful Spanish island of Ibiza. Yes, please."
+      },
+      {
+        "name": "The Fury",
+        "author": "Alex Michaelides",
+        "genre": "Mysteries & Thrillers",
+        "description": "Mystery fans who enjoyed the grim fun of The Silent Patient will be happy to hear that author Alex Michaelides is back patrolling similar twisty terrain. The Fury moves the action to a posh Greek island, where movie star Lana Farrar has gathered all her besties. Murder ensues. Early readers are praising the plot, pacing, and Glass Onion vibe."
+      },
+      {
+        "name": "Only If You Are Lucky",
+        "author": "Stacy Willingham",
+        "genre": "Mysteries & Thrillers",
+        "description": "Psychological suspense specialist Stacy Willingham (A Flicker in the Dark) returns to explore a Bad Roommate Situation gone nuclear. Shy college sophomore Margot has just moved into off-campus housing with her wild friend Lucy and two other girls. When one of the fraternity boys next door winds up dead, roommate tensions get severe."
+      },
+      {
+        "name": "The Mysterious Case of the Alperton Angels",
+        "author": "Janice Hallett",
+        "genre": "Mysteries & Thrillers",
+        "description": "Eighteen years ago, the Alperton Angels suicide cult made headlines around the world—and an infant mysteriously disappeared. Now true-crime writer Amanda Bailey may have found the Alperton Baby, all grown up, which would be the scoop of the century. Complicating matters: The child may be the anti-Christ. Uh-oh. Janice Hallett (The Appeal) has the infernal details."
+      },
+      {
+        "name": "The Atlas Complex",
+        "author": "Olivie Blake",
+        "genre": "Fantasy",
+        "description": "The third and reportedly final installment of Olivie Blake’s Atlas series reveals the ultimate fate of the Alexandrian Society, powerful sorcerers who wield the magical knowledge of history’s greatest civilizations. The Six Society recruits must decide what they’re willing to sacrifice for limitless power. The fate of the world, need we add, hangs in the balance. "
+      },
+      {
+        "name": "The Tainted Cup",
+        "author": "Robert Jackson Bennett",
+        "genre": "Fantasy",
+        "description": "A classically structured murder mystery set in an innovative fantasy milieu, The Tainted Cup is the first in a new series from genre ace Robert Jackson Bennett, author of the excellent Founders Trilogy series. In Holmes-and-Watson style, genius detective Ana Dolabra and her assistant, Dinios Kol, investigate an impossible murder in an ecologically evolved world."
+      },
+      {
+        "name": "The Book of Love",
+        "author": "Kelly Link",
+        "genre": "Fantasy",
+        "description": "One of the most beloved writers in all of speculative fiction, Kelly Link brings emotional depth and serious literary chops to whatever she chooses to write about. In this case, three teenagers—missing and presumed dead—find themselves dropped back into their old lives. Although they may still be missing. And, in fact, they may still be dead. Intriguing, is it not?"
+      },
+      {
+        "name": "A Love Song for Ricki Wilde",
+        "author": "Tia Williams",
+        "genre": "Romance",
+        "description": "Ricki Wilde, restless daughter of a wealthy Atlanta family, decides to take her chances in New York City, where the spirit of the Harlem Renaissance still lingers. When a handsome stranger sweeps her off her feet, Ricki gets a new perspective on Harlem’s history. Brooklyn author Tia Williams (Seven Days in June) delivers an epic love story with a timely twist."
+      },
+      {
+        "name": "This Could Be Us",
+        "author": "Kennedy Ryan",
+        "genre": "Romance",
+        "description": "In this stirring new love story from romance great Kennedy Ryan (Before I Let Go), a woman finds her life upended by a monumental betrayal. In its aftermath, Soledad Barnes must keep a roof over her daughters' heads and rediscover herself at the same time. That doesn't leave any time for a hunky (but forbidden!) man to enter the picture—or does it?"
+      },
+      {
+        "name": "Womb City",
+        "author": "Tlotlo Tsamaase",
+        "genre": "Sci-Fi",
+        "description": "In a future Africa where men control women’s bodies via microchip, one desperate woman faces off against cruel systemic inequality—and a vengeful ghost bent on bloody revenge. An early favorite for 2024’s Most Unsettling Cover Art Award, Womb City is the debut adult novel from author Tlotlo Tsamaase."
+      },
+      {
+        "name": "In Ascension",
+        "author": "Martin MacInnes",
+        "genre": "Sci-Fi",
+        "description": "Long-listed for the 2023 Booker Prize, Martin MacInnes' literary sci-fi tale of the ocean's unfathomable depths hits U.S. shores this February. Think Interstellar, but underwater, as a young marine biologist joins a deep-sea expedition in the Atlantic that calls into question everything we know about our own beginnings."
+      },
+      {
+        "name": "Baby X",
+        "author": "Kira Peikoff",
+        "genre": "Sci-Fi",
+        "description": "Ripped straight from science news headlines, the sci-fi thriller Baby X imagines an uncomfortably plausible future. Advances in genetics have spawned a black market for stolen celebrity DNA. Bio-security agent Ember Ryan helps her famous clients by fending off psycho stalkers. But no one is ready for what happens next."
+      },
+      {
+        "name": "The House of Last Resort",
+        "author": "Christopher Golden",
+        "genre": "Horror",
+        "description": "Perhaps you’ve seen those news reports about remote Italian village homes available for free? Yeah, author Christopher Golden saw those reports, too, and his latest high-concept horror show presents a worst-case scenario: Think creepy villagers, unholy rituals, ancient evil, haunted catacombs, this sort of thing."
+      },
+      {
+        "name": "Island Witch",
+        "author": "Amanda Jayatissa",
+        "genre": "Horror",
+        "description": "If you’re in the market for atmospheric gothic horror with a feminist twist set in 19th-century Sri Lanka, well, we have a most extraordinary coincidence to report. This historical cautionary tale from author Amanda Jayatissa (You’re Invited) features a courageous young heroine, a supernatural jungle entity, and some grim observations on Western religious hegemony."
+      },
+      {
+        "name": "Ghost Station",
+        "author": "S.A. Barnes",
+        "genre": "Horror",
+        "description": "Connoisseurs of spec-fic microgenres may want to get acquainted with author S.A. Barnes (Dead Silence), who has staked out a nice little specialty in space horror. Her new one, due in July, features a dubious exploration mission, a derelict planet, a missing colony, and a space-based illness that causes unfortunate spells of psychopathic violence."
+      },
+      {
+        "name": "A Tempest of Tea",
+        "author": " Hafsah Faizal",
+        "genre": "Young Adult",
+        "description": "The first in a new duology from acclaimed author Hafsah Faizal (We Hunt the Flame), the historical fantasy A Tempest of Tea puts a new spin on the old heist-story template. Several spins, actually. Find out what happens when streetwise orphan Arthie Casimir gathers her crew to take down a nest of aristocratic vampires."
+      },
+      {
+        "name": "The Reappearance of Rachel Price",
+        "author": "Holly Jackson",
+        "genre": "Young Adult",
+        "description": "Here is a pickle: Bels mom, Rachel, disappeared 16 years ago, when Bel was just an infant. During the filming of a true-crime documentary on the case, Mom suddenly reappears with a frankly unbelievable story. Now Bel has to figure out what’s really going on—with the cameras rolling. Uncomfortable! Holly Jackson (A Good Girl's Guide to Murder series) has the details. "
+      },
+      {
+        "name": "Heavenly Tyrant",
+        "author": "Xiran Jay Zhao",
+        "genre": "Young Adult",
+        "description": "Book No. 2 in the inventive Iron Widow sci-fi/fantasy series, Heavenly Tyrant continues the adventures of young robot pilot Zetian. Now in a position to make a difference, Zetian takes aim at the misogynist superstructure of Huaxia society."
+      },
+      {
+        "name": "Divine Might Goddesses in Greek Myth",
+        "author": "Natalie Haynes",
+        "genre": "Nonfiction",
+        "description": "It is shaping up to be another bountiful year for nonfiction, starting with this January release from British scholar and mythology specialist Natalie Haynes (A Thousand Ships). Divine Might provides a female-centered look at classical Greek legends and stories, delivered with Haynes’ patented insight and humor. Bonus trivia: Across the pond, Haynes is a celebrity historian. They have those in England."
+      },
+      {
+        "name": "My Side of the River",
+        "author": "Elizabeth Camarillo Gutierrez",
+        "genre": "Nonfiction",
+        "description": "Stranded in Arizona when her immigrant parents were forced back to Mexico, teenage Elizabeth Gutierrez finished school and cared for her younger brother as a homeless student in Tucson. Front-line evidence of a broken immigration system, this debut memoir is recommended for readers of Educated and The Distance Between Us."
+      },
+      {
+        "name": "Knife Meditations After an Attempted Murder",
+        "author": "Salman Rushdie",
+        "genre": "Nonfiction",
+        "description": "On August 12, 2022, author Salman Rushdie was brutally attacked onstage as he prepared to give a public lecture in New York. Rushdie lost the use of one eye and one hand. His new book recounts the traumatic incident and his painful recovery in a powerful initiative to engage violence with words, hate with art."
+      }
+    ]
+  }
