@@ -1,8 +1,12 @@
 import click
+import logging 
 from init_db import init_db
 from models.book import Book
 from models.reading_goal import ReadingGoal
 from models.review import Review
+import json
+import random 
+import csv 
 
 db_session= init_db() #initialize DB session
 
@@ -123,15 +127,32 @@ def add_review():
 
 @click.command()
 def suggest_next():
-    """Generate reading suggestions"""
-    #implementation
-    click.echo('You may like:{suggestions}') # figure out how to get {suggestions}
+    #"""Generate reading suggestions"""
+    try:
+        with open('suggestions.json', 'r') as f:
+            suggestions = json.load(f)
+            book = random.choice(suggestions)
+            click.echo(f'How about reading {book['name']} by {book['author']}?')
+    except (FileNotFoundError, json.JSONDecodeError):
+        click.echo('Unable to load book suggestions.')
+                  
+
 
 @click.command()
 def export_list():
-    """Exporting reading list"""
-    #implementation
-    click.echo('Share your reading list...')
+    #"""Exporting reading list to a csv file"""
+    books = db_session.query(Book).all()
+    filename = 'reading_list.csv'
+
+    with open(filename, 'w', newline='', encoding='utf-8') as csvfile:
+        fieldnames = ['title', 'author', 'genre','total_pages','status']
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+
+        writer.writeheader()
+        for book in books:
+            writer.writerow({'name':book.name, 'author':book.author, 'genre':book.genre, 'total_pages':book.total_pages, 'status':book.status})
+
+    click.echo(f'Your reading list has been exported to {filename}')
 
 #register commands
 cli.add_command(add_book)
