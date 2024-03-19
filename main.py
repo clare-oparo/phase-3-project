@@ -1,5 +1,4 @@
 import click
-import logging 
 from init_db import init_db
 from models.book import Book
 from models.reading_goal import ReadingGoal
@@ -7,6 +6,7 @@ from models.review import Review
 import json
 import random 
 import csv 
+import sys 
 
 db_session= init_db() #initialize DB session
 
@@ -122,7 +122,7 @@ def add_review():
     new_review = Review(book_id=selected_book.id, rating=rating, review=review_text)
     db_session.add(new_review)
     db_session.commit()
-    click.echo(f'Review added for "{selected_book.title}".')
+    click.echo(f'Review added for "{selected_book.name}".')
 
 
 @click.command()
@@ -150,7 +150,7 @@ def export_list():
 
         writer.writeheader()
         for book in books:
-            writer.writerow({'name':book.name, 'author':book.author, 'genre':book.genre, 'total_pages':book.total_pages, 'status':book.status})
+            writer.writerow({'title':book.name, 'author':book.author, 'genre':book.genre})
 
     click.echo(f'Your reading list has been exported to {filename}')
 
@@ -196,6 +196,9 @@ def show_menu():
         suggest_next()
     elif choice == 8:
         export_list()
+    elif choice == 9:
+        click.echo('Goodbye!')
+        sys.exit() 
     
     else:
         click.echo('Invalid choice. Please choose a valid option.')
