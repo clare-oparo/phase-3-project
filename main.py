@@ -7,6 +7,10 @@ import json
 import random 
 import csv 
 import sys 
+import logging
+
+logging.getLogger('sqlalchemy.engine').setLevel(logging.WARNING)
+logging.basicConfig(level=logging.WARNING, format='%(asctime)s - %(levelname)s - %(message)s')
 
 db_session= init_db() #initialize DB session
 
