@@ -1,5 +1,5 @@
 # allows rating and reviewing of books
-from sqlalchemy import Column, Integer, String, ForeignKey, Text
+from sqlalchemy import Column, Integer, ForeignKey, Text
 from sqlalchemy.orm import relationship
 from .base import Base
 
