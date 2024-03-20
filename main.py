@@ -182,30 +182,30 @@ def show_menu():
     click.echo('8 to Export your reading list')
     click.echo('9 to Quit')
     
-    choice = click.prompt('Please enter your choice', type=int)
+    while True:
+        choice = click.prompt('Please enter your choice', type=int)
 
-    if choice == 1:
-        add_book()
-    elif choice == 2:
-        view_books()
-    elif choice == 3:
-        update_status()
-    elif choice == 4:
-        set_goal()
-    elif choice == 5:
-        update_goal()
-    elif choice == 6:
-        add_review()
-    elif choice == 7:
-        suggest_next()
-    elif choice == 8:
-        export_list()
-    elif choice == 9:
-        click.echo('Goodbye!')
-        sys.exit() 
-    
-    else:
-        click.echo('Invalid choice. Please choose a valid option.')
+        if choice == 1:
+            add_book()
+        elif choice == 2:
+            view_books()
+        elif choice == 3:
+            update_status()
+        elif choice == 4:
+            set_goal()
+        elif choice == 5:
+            update_goal()
+        elif choice == 6:
+            add_review()
+        elif choice == 7:
+            suggest_next()
+        elif choice == 8:
+            export_list()
+        elif choice == 9:
+            click.echo('Goodbye!')
+            sys.exit() 
+        else:
+            click.echo('Invalid choice. Please choose a valid option.')
 
 
 if __name__ == '__main__':

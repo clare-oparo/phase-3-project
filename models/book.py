@@ -12,5 +12,8 @@ class Book(Base):
     total_pages = Column(Integer)
     status = Column(String, default='unread') #options are unread, in progress and complete
     current_page = Column(Integer, default=0)
-    # make sre to define review model!
+    # make sure to define review model!
+    # one book can have many reviews
     reviews = relationship('Review', back_populates='book')
+    #one book can have many notes
+    notes = relationship('Note', back_populates='book')
