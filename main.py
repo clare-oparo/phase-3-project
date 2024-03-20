@@ -3,7 +3,7 @@ from init_db import init_db
 from models.book import Book
 from models.reading_goal import ReadingGoal
 from models.review import Review
-from models.note import Note 
+# from models.note import Note 
 import json
 import random 
 import csv 
@@ -19,7 +19,6 @@ def cli():
 # define cli commands here
 @click.command()
 def add_book():
-    #"""Add a new book."""
     name = click.prompt('Enter the book name')
     author = click.prompt('Enter the author\'s name')
     genre = click.prompt('Enter book genre')
@@ -30,7 +29,7 @@ def add_book():
     db_session.commit()
 
     click.echo(f'{name} by {author} has been added to your library.')
-    post_action_prompt()
+    book_mgt_post_action_prompt()
 
 
 @click.command()
@@ -44,7 +43,7 @@ def view_books():
     else:
         click.echo('Your library is empty.')
     
-    post_action_prompt()
+    book_mgt_post_action_prompt()
     
 
 @click.command()
@@ -61,7 +60,22 @@ def update_status():
     else:
         click.echo('Book not found.')
     
-    post_action_prompt()
+    book_mgt_post_action_prompt()
+
+@click.command()
+def delete_books():
+    book_id = click.prompt('Enter the Book ID', type=int)
+    book = db_session.query(Book).filter_by(id = book_id).first()
+
+    if book:
+        db_session.delete(book)
+        db_session.commit()
+        click.echo(f'{book.name} by {book.author} deleted successfully.')
+    else:
+        
+        click.echo('Book not found.')
+    
+    book_mgt_post_action_prompt()
 
 @click.command()
 def set_goal():
@@ -86,26 +100,102 @@ def set_goal():
 
     post_action_prompt()
 
-@click.command()
-def update_goal():
-    # """Update the current active reading goal."""
-    goal = db_session.query(ReadingGoal).filter_by(status='active').first()
-    if not goal:
-        click.echo("No active reading goal found.")
-        return
 
-    goal.goal = click.prompt("How many books do you aim to read?", default=goal.goal, type=int)
-    goal.start_date = click.prompt("Enter the start date (YYYY-MM-DD)", default=goal.start_date, type=click.DateTime(formats=["%Y-%m-%d"])).date()
-    goal.end_date = click.prompt("Enter the end date (YYYY-MM-DD)", default=goal.end_date, type=click.DateTime(formats=["%Y-%m-%d"])).date()
+@click.group()
+def reading_goal_mgt():
+    reading_goal_menu()
+
+@click.command()
+def set_goal():
+    existing_goals = db_session.query(ReadingGoal).filter_by(status='active').all()
+    if existing_goals:
+        click.echo(f'You already have {len(existing_goals)} active reading goal(s).')
     
-    db_session.commit()
-    click.echo("Your reading goal has been updated.")
-    post_action_prompt()
-
+    if not existing_goals or click.confirm('Do you want to add another goal?'):
+        goal_number = click.prompt('How many books do you plan to read?', type=int)
+        start_date = click.prompt("Enter the start date (YYYY-MM-DD)", type=click.DateTime(formats=["%Y-%m-%d"]))
+        end_date = click.prompt("Enter the end date (YYYY-MM-DD)", type=click.DateTime(formats=["%Y-%m-%d"]))
+        
+        if start_date > end_date:
+            click.echo("The start date must be before the end date. Please try again.")
+            return
+        
+        new_goal = ReadingGoal(goal=goal_number, start_date=start_date.date(), end_date=end_date.date(), status='active')
+        db_session.add(new_goal)
+        db_session.commit()
+        click.echo("Your new reading goal has been set.")
+    else:
+        click.echo("No new reading goal added.")
+    
+    reading_goals_post_action_prompt()
 
 @click.command()
-def add_review():
-    # """Add reviews and ratings"""
+def view_goal():
+    goals = db_session.query(ReadingGoal).all()
+    if goals:
+        click.echo('Your Reading Goals:')
+        for goal in goals:
+            duration = (goal.end_date - goal.start_date).days
+            if goal.goal > 0 :
+                days_per_book = duration / goal.goal
+                click.echo(f'Goal ID: {goal.id}, Read {goal.goal} books, '
+                           f'Duration: {duration} days, '
+                           f'Days per book: {days_per_book:.2f}, '
+                           f'Start Date: {goal.start_date}, End Date: {goal.end_date}')
+            else:
+                click.echo(f'Goal ID: {goal.id} has 0 books set, unable to calculate days per book.')
+    else:
+        click.echo('No reading goals set.')
+    
+    reading_goals_post_action_prompt()
+
+@click.command()
+def edit_goal():
+    goal_id = click.prompt('Enter the Reading Goal ID', type=int)
+    goal = db_session.query(ReadingGoal).filter_by(id=goal_id).first()
+
+    if goal:
+        click.echo(f'Current Goal: Read {goal.goal} books from {goal.start_date} to {goal.end_date}')
+
+        new_goal_number = click.prompt('Enter the new number of books', type=int)
+        new_start_date = click.prompt('Enter the new start date (YYYY-MM-DD)', type=click.DateTime(formats=["%Y-%m-%d"]))
+        new_end_date = click.prompt('Enter the new end date (YYYY-MM-DD)', type=click.DateTime(formats=["%Y-%m-%d"]))
+        #new_status = click.prompt('Enter the new status (active, completed, failed) (or press Enter to keep current)', type=str, default=goal.status)
+
+        goal.goal = new_goal_number
+        goal.start_date = new_start_date
+        goal.end_date = new_end_date
+        #goal.status = new_status
+
+        db_session.commit()
+        click.echo('Reading Goal updated successfully.')
+    
+    else:
+        click.echo('Reading Goal not found.')
+
+    reading_goals_post_action_prompt()
+
+@click.command()
+def delete_goal():
+    goal_id = click.prompt('Enter the Reading Goal ID', type=int)
+    goal = db_session.query(ReadingGoal).filter_by(id=goal_id).first()
+
+    if goal:
+        db_session.delete(goal)
+        db_session.commit()
+        click.echo(f'Reading Goal {goal.id} deleted.')
+    else:
+        click.echo('Reading Goal not found.')
+
+    reading_goals_post_action_prompt()
+
+@click.group()
+def review_mgt():
+    review_mgt_menu()
+
+@click.command()
+def add_reviews():
+  
     book_name = click.prompt("Enter the book title")
     books = db_session.query(Book).filter(Book.name.ilike(f'%{book_name}%')).all()
 
@@ -126,7 +216,7 @@ def add_review():
             return
         selected_book = books[book_index]
 
-    rating = click.prompt("Enter your rating (1-5)", type=int)
+    rating = click.prompt("Enter your rating (1-5)", type=float)
     review_text = click.prompt("Enter your review", default="", show_default=False)
 
     new_review = Review(book_id=selected_book.id, rating=rating, review=review_text)
@@ -134,7 +224,62 @@ def add_review():
     db_session.commit()
     click.echo(f'Review added for "{selected_book.name}".')
 
-    post_action_prompt()
+    reviews_mgt_post_action_prompt()
+
+@click.command()
+def view_reviews():
+    reviews = db_session.query(Review).all()
+
+    if reviews:
+        click.echo('All Reviews:')
+        for review in reviews:
+            book_name = review.book.name if review.book else "Unknown Book"
+            click.echo(f'Review ID: {review.id}, Book: {book_name}, Rating: {review.rating}, Notes: "{review.review}"')
+    else:
+        click.echo('No reviews found.')
+
+    reviews_mgt_post_action_prompt()
+
+@click.command()
+def edit_reviews():
+    # Prompt the user for the review ID
+    review_id = click.prompt("Enter the Review ID to edit", type=int)
+    
+    # Fetch the review from the database
+    review = db_session.query(Review).filter(Review.id == review_id).first()
+    
+    if review:
+        # Show current review details
+        click.echo(f"Current rating: {review.rating}")
+        click.echo(f"Current review text: {review.review}")
+        
+        new_rating = click.prompt("Enter new rating (1-5)", type=int)
+        new_review_text = click.prompt("Enter new notes", type=str)
+        
+        review.rating = new_rating
+        review.review = new_review_text
+        
+        db_session.commit()
+        click.echo("Review updated successfully.")
+    else:
+        click.echo("Review not found.")
+
+    reviews_mgt_post_action_prompt()
+
+@click.command()
+def delete_reviews():
+    review_id = click.prompt("Enter the Review ID to delete", type=int)
+    
+    review = db_session.query(Review).filter(Review.id == review_id).first()
+    
+    if review:
+        db_session.delete(review)
+        db_session.commit()
+        click.echo(f"Review ID {review_id} deleted successfully.")
+    else:
+        click.echo("Review not found.")
+
+    reviews_mgt_post_action_prompt()
 
 
 @click.command()
@@ -170,99 +315,90 @@ def export_list():
 
     post_action_prompt()
 
-@click.group(name='book_notes')
-def book_notes():
-    """Manage book notes."""
-    pass
-
-@book_notes.command(name='add')
-@click.option('--book_id', type=int, prompt='Book ID')
-@click.option('--content', type=str, prompt='Note content')
-
-def add_note(book_id, content):
-    #'''Add a new note to a book.'''
-    book = db_session.query(Book).filter_by(id=book_id).first()
-    if book:
-        new_note = Note(content=content, book=book)
-        db_session.add(new_note)
-        db_session.commit()
-        click.echo(f'Note added to {book.name}')
-    else:
-        click.echo('Book not found.')
-    
-    post_action_prompt()
-
-@book_notes.command(name='view')
-@click.option('--book_id', type=int, prompt='Book ID')
-
-def view_notes(book_id):
-    '''View notes for a specific book.'''
-    notes = db_session.query(Note).filter_by(book_id=book_id).all()
-    if notes:
-        click.echo(f'Notes for Book ID {book_id}: ')
-        for note in notes:
-            click.echo(f'ID: {note.id}, Content: {note.content}')
-    
-    else:
-        click.echo('No notes found for this book.')
-    
-    post_action_prompt()
-    
-@book_notes.command(name='update')
-@click.option('--note_id', type=int, prompt='Note ID')
-@click.option('--content', type=str, prompt='New note content')
-def update_note(note_id, content):
-    '''Update a specific note'''
-    note = db_session.query(Note).filter_by(id=note_id).first()
-    if note:
-        note.content = content
-        db_session.commit()
-        click.echo(f'Note ID: {note_id} updated.')
-    else:
-        click.echo('Note not found.')
-
-    post_action_prompt()
-
-@book_notes.command(name='delete')
-@click.option('--note_id', type=int, prompt='Note ID')
-def delete_note(note_id):
-    '''Delete a specific note'''
-    note = db_session.query(Note).filter_by(id=note_id).first()
-    if note:
-        db_session.delete(note)
-        db_session.commit()
-        click.echo(f'Note ID {note_id} deleted.')
-    else:
-        click.echo('Note not found')
-    
-    post_action_prompt()
-
 #register commands
 cli.add_command(add_book)
 cli.add_command(view_books)
 cli.add_command(update_status)
-cli.add_command(set_goal)
-cli.add_command(update_goal)
-cli.add_command(add_review)
+cli.add_command(delete_books)
+#cli.add_command(update_goal)
+cli.add_command(add_reviews)
+cli.add_command(view_reviews)
+cli.add_command(edit_reviews)
+cli.add_command(delete_reviews)
 cli.add_command(suggest_next)
 cli.add_command(export_list)
-cli.add_command(book_notes)
+cli.add_command(set_goal)
+cli.add_command(view_goal)
+cli.add_command(edit_goal)
+cli.add_command(delete_goal)
 
 
 def show_menu():
-    #"""Display menu to user"""
-    click.echo('Welcome to LibLog! Select...')
-    click.echo('1 to Add a new book')
-    click.echo('2 to View books and IDs')
-    click.echo('3 to Update status')
-    click.echo('4 to Set reading goal')
-    click.echo('5 to Update reading goal')
-    click.echo('6 to Rate and review a book')
-    click.echo('7 for Book suggestions')
-    click.echo('8 to Export reading list')
-    click.echo('9 to Manage book notes')
-    click.echo('10 to Quit')
+    click.echo('Welcome to LibLog!')
+    click.echo('1: Manage Books')
+    click.echo('2: Reading Goals')
+    click.echo('3: Manage Reviews')
+    click.echo('4: Book Suggestions')
+    click.echo('5: Export Reading List')
+    click.echo('6: Quit')
     
+    while True:
+        choice = click.prompt('Please enter your choice', type=int)
+
+        if choice == 1:
+            book_mgt_menu()
+        elif choice == 2:
+            reading_goal_menu()
+        elif choice == 3:
+            review_mgt_menu()
+        elif choice == 4:
+            suggest_next()
+        elif choice == 5:
+            export_list()
+        elif choice == 6:
+            click.echo('Goodbye!')
+            sys.exit()
+        else:
+            click.echo('Invalid choice. Please choose a valid option.')
+
+def reading_goal_menu():
+    click.echo('Manage Reading Goals')
+    click.echo('1: Set a reading goal')
+    click.echo('2: View reading goals')
+    click.echo('3: Edit reading goals')
+    click.echo('4: Delete reading goals')
+    click.echo('5: Main Menu')
+    click.echo('6: Quit')
+
+    while True:
+        choice = click.prompt('Please enter your choice', type=int)
+
+        if choice == 1:
+            set_goal()
+        elif choice == 2:
+            view_goal()
+        elif choice == 3:
+            edit_goal()
+        elif choice == 4:
+            delete_goal()
+        elif choice == 5:
+            show_menu()
+        elif choice == 6:
+            click.echo('Goodbye!')
+            sys.exit()
+        else:
+            click.echo('Invalid choice. Please choose a valid option.')
+
+def book_mgt_menu():
+    click.echo('Manage Books')
+    click.echo('1: Add Book')
+    click.echo('2: View Books')
+    click.echo('3: Edit Books')
+    click.echo('4: Delete Books')
+    click.echo('5: Main Menu')
+    click.echo('6: Quit')
+
+
     while True:
         choice = click.prompt('Please enter your choice', type=int)
 
@@ -273,22 +409,46 @@ def show_menu():
         elif choice == 3:
             update_status()
         elif choice == 4:
-            set_goal()
+            delete_books()
         elif choice == 5:
-            update_goal()
+            show_menu()
         elif choice == 6:
-            add_review()
-        elif choice == 7:
-            suggest_next()
-        elif choice == 8:
-            export_list()
-        elif choice == 9:
-            book_notes()
-        elif choice == 10:
             click.echo('Goodbye!')
             sys.exit()
+
         else:
             click.echo('Invalid choice. Please choose a valid option.')
+
+def review_mgt_menu():
+    click.echo('Manage Reviews')
+    click.echo('1: Add Reviews')
+    click.echo('2: View Reviews')
+    click.echo('3: Edit Reviews')
+    click.echo('4: Delete Reviews')
+    click.echo('5: Main Menu')
+    click.echo('6: Quit')
+
+
+    while True:
+        choice = click.prompt('Please enter your choice', type=int)
+
+        if choice == 1:
+            add_reviews()
+        elif choice == 2:
+            view_reviews()
+        elif choice == 3:
+            edit_reviews()
+        elif choice == 4:
+            delete_reviews()
+        elif choice == 5:
+            show_menu()
+        elif choice == 6:
+            click.echo('Goodbye!')
+            sys.exit()
+
+        else:
+            click.echo('Invalid choice. Please choose a valid option.')
+   
 
 def post_action_prompt():
     click.echo("\nWhat would you like to do next?")
@@ -297,6 +457,49 @@ def post_action_prompt():
     choice = click.prompt("Please enter your choice", type=int)
     
     if choice == 1:
+        show_menu()
+    else:
+        click.echo('Goodbye!')
+        sys.exit()
+
+def reading_goals_post_action_prompt():
+    click.echo("\nWhat would you like to do next?")
+    click.echo("1: Return to Reading Goals Menu")
+    click.echo("2: Return to Main Menu")
+    click.echo("3: Quit")
+    choice = click.prompt("Please enter your choice", type=int)
+    
+    if choice == 1:
+        reading_goal_menu()
+    elif choice == 2:
+        show_menu()
+    else:
+        click.echo('Goodbye!')
+        sys.exit()
+
+def book_mgt_post_action_prompt():
+    click.echo("1: Return to Book Management Menu")
+    click.echo("2: Return to Main Menu")
+    click.echo("3: Quit")
+    choice = click.prompt("Please enter your choice", type=int)
+    
+    if choice == 1:
+        book_mgt_menu()
+    elif choice == 2:
+        show_menu()
+    else:
+        click.echo('Goodbye!')
+        sys.exit()
+
+def reviews_mgt_post_action_prompt():
+    click.echo("1: Return to Reviews Management Menu")
+    click.echo("2: Return to Main Menu")
+    click.echo("3: Quit")
+    choice = click.prompt("Please enter your choice", type=int)
+    
+    if choice == 1:
+        review_mgt_menu()
+    elif choice == 2:
         show_menu()
     else:
         click.echo('Goodbye!')

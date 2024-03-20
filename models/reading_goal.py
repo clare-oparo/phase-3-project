@@ -3,7 +3,7 @@ from sqlalchemy import Column, Integer, String, Date
 from .base import Base
 
 class ReadingGoal(Base):
-    __tablename__ = 'reading goals'
+    __tablename__ = 'reading_goals'
     id = Column(Integer, primary_key=True)
     goal = Column(Integer, nullable=False) # number of books to read
     start_date = Column(Date, nullable=False)

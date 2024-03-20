@@ -6,7 +6,7 @@ from .base import Base
 class Review(Base):
     __tablename__ = 'reviews'
     id = Column(Integer, primary_key=True)
-    rating = Column(Integer, nullable=False) # preferably use a 3-star rating
+    rating = Column(Integer, nullable=False) 
     review = Column(Text, nullable=True)
     book_id = Column(Integer, ForeignKey('books.id'), nullable=False)
     book = relationship('Book', back_populates='reviews')
