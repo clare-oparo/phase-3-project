@@ -1,10 +1,10 @@
 user can:
-- create a reading goal
-- add new books to read (book name, author, genre, total pages)
-- update their reading status (unread, inprogress, complete)
-- update the reading progress based on the current page and the total pages
-- update the reading goal when reading status of book is finished
-- rate the book based using a star rating
-- write a note or review
-- get suggestions for what to read next
-- export their reading list  
+- create a reading goal. done
+- add new books to read (book name, author, genre, total pages).done
+- update their reading status (unread, inprogress, complete).done
+- update the reading progress based on the current page and the total pages. done
+- update the reading goal when reading status of book is finished.done
+- rate the book based using a star rating. done
+- write a note or review. done
+- get suggestions for what to read next. done
+- export their reading list . done
