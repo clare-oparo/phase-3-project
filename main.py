@@ -50,20 +50,7 @@ def view_books():
 
 @click.command()
 def update_status():
-    # """Update reading status"""
-    
-    #book_id = click.prompt('Enter the book ID', type=int)
     add_reviews()
-    # new_status = click.prompt('Enter the new status(unread, in progress or complete)')
-
-    # book = db_session.query(Book).filter_by(id=book_id).first()
-    # if book:
-    #     book.status = new_status
-    #     db_session.commit()
-    #     click.echo(f'Updated {book.name} to {new_status}')
-    # else:
-    #     click.echo('Book not found.')
-    
     book_mgt_post_action_prompt()
 
 @click.command()
@@ -276,8 +263,7 @@ def suggest_next():
         click.echo('Unable to load book suggestions.')
     
     post_action_prompt()
-                  
-
+                
 
 @click.command()
 def export_list():
@@ -302,7 +288,6 @@ cli.add_command(add_book)
 cli.add_command(view_books)
 cli.add_command(update_status)
 cli.add_command(delete_books)
-#cli.add_command(update_goal)
 cli.add_command(add_reviews)
 cli.add_command(view_reviews)
 cli.add_command(edit_reviews)
@@ -379,6 +364,7 @@ def book_mgt_menu():
     click.echo('4: Delete Books')
     click.echo('5: Main Menu')
     click.echo('6: Quit')
+    
 
 
     while True:
@@ -397,7 +383,6 @@ def book_mgt_menu():
         elif choice == 6:
             click.echo('Goodbye!')
             sys.exit()
-
         else:
             click.echo('Invalid choice. Please choose a valid option.')
 
@@ -490,4 +475,4 @@ def reviews_mgt_post_action_prompt():
 
 if __name__ == '__main__':
     show_menu() 
-    # cli()
+    

@@ -9,5 +9,4 @@ class Review(Base):
     book_id = Column(Integer, ForeignKey('books.id'), nullable=False)
     rating = Column(Integer, nullable=False) 
     review = Column(Text, nullable=True)
-    #notes = Column(Text, nullable=True)
     book = relationship('Book', back_populates='reviews')
