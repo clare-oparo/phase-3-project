@@ -5,7 +5,7 @@ from models.base import Base
 DATABASE_URI = 'sqlite:///liblog.db'
 
 def init_db():
-    engine = create_engine(DATABASE_URI, echo=True)
+    engine = create_engine(DATABASE_URI)
     Base.metadata.create_all(engine)
     return scoped_session(sessionmaker(bind=engine))
 

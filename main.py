@@ -3,7 +3,6 @@ from init_db import init_db
 from models.book import Book
 from models.reading_goal import ReadingGoal
 from models.review import Review
-# from models.note import Note 
 import json
 import random 
 import csv 
@@ -23,12 +22,15 @@ def add_book():
     author = click.prompt('Enter the author\'s name')
     genre = click.prompt('Enter book genre')
     total_pages = click.prompt('Enter the total number of pages', type=int)
+    current_page = click.prompt('Enter the page you are currently on', type=int)
 
-    new_book = Book(name=name, author=author, genre=genre, total_pages=total_pages)
+    new_book = Book(name=name, author=author, genre=genre, total_pages=total_pages, current_page=current_page)
     db_session.add(new_book)
     db_session.commit()
 
-    click.echo(f'{name} by {author} has been added to your library.')
+    progress_message = f"{name} by {author} has been added to your library. You are {new_book.progress:.2f}% through the book."
+
+    click.echo(progress_message)
     book_mgt_post_action_prompt()
 
 
@@ -39,7 +41,7 @@ def view_books():
     if books:
         click.echo('Your Books:')
         for book in books:
-            click.echo(f' ID: {book.id}, Title: {book.name}, Author: {book.author}')
+            click.echo(f' ID: {book.id}, Title: {book.name}, Author: {book.author}, Reading Status:{book.status}')
     else:
         click.echo('Your library is empty.')
     
@@ -49,16 +51,18 @@ def view_books():
 @click.command()
 def update_status():
     # """Update reading status"""
-    book_id = click.prompt('Enter the book ID', type=int)
-    new_status = click.prompt('Enter the new status(unread, in progress or complete)')
+    
+    #book_id = click.prompt('Enter the book ID', type=int)
+    add_reviews()
+    # new_status = click.prompt('Enter the new status(unread, in progress or complete)')
 
-    book = db_session.query(Book).filter_by(id=book_id).first()
-    if book:
-        book.status = new_status
-        db_session.commit()
-        click.echo(f'Updated {book.name} to {new_status}')
-    else:
-        click.echo('Book not found.')
+    # book = db_session.query(Book).filter_by(id=book_id).first()
+    # if book:
+    #     book.status = new_status
+    #     db_session.commit()
+    #     click.echo(f'Updated {book.name} to {new_status}')
+    # else:
+    #     click.echo('Book not found.')
     
     book_mgt_post_action_prompt()
 
@@ -77,29 +81,6 @@ def delete_books():
     
     book_mgt_post_action_prompt()
 
-@click.command()
-def set_goal():
-    #"""Set reading goal"""
-    existing_goal = db_session.query(ReadingGoal).filter_by(status='active').first()
-    if existing_goal:
-        click.echo('You already have an active reading goal')
-        if not click.confirm('Do you want to replace it?'):
-            return
-        
-        existing_goal.status = 'completed'
-        db_session.commit()
-
-    goal = click.prompt('How many books do you aim to read?')
-    start_date = click.prompt("Enter the start date (YYYY-MM-DD)", type=click.DateTime(formats=["%Y-%m-%d"]))
-    end_date = click.prompt("Enter the end date (YYYY-MM-DD)", type=click.DateTime(formats=["%Y-%m-%d"]))
-
-    new_goal = ReadingGoal(goal=goal, start_date=start_date.date(), end_date=end_date.date(), status='active')
-    db_session.add(new_goal)
-    db_session.commit()
-    click.echo("Your new reading goal has been set.")
-
-    post_action_prompt()
-
 
 @click.group()
 def reading_goal_mgt():
@@ -112,18 +93,19 @@ def set_goal():
         click.echo(f'You already have {len(existing_goals)} active reading goal(s).')
     
     if not existing_goals or click.confirm('Do you want to add another goal?'):
+        name = click.prompt('Enter a name for your reading goal', type=str)
         goal_number = click.prompt('How many books do you plan to read?', type=int)
-        start_date = click.prompt("Enter the start date (YYYY-MM-DD)", type=click.DateTime(formats=["%Y-%m-%d"]))
-        end_date = click.prompt("Enter the end date (YYYY-MM-DD)", type=click.DateTime(formats=["%Y-%m-%d"]))
+        start_date = click.prompt("Enter the start date (DD-MM-YYYY)", type=click.DateTime(formats=["%d-%m-%Y"]))
+        end_date = click.prompt("Enter the end date (DD-MM-YYYY)", type=click.DateTime(formats=["%d-%m-%Y"]))
         
         if start_date > end_date:
             click.echo("The start date must be before the end date. Please try again.")
             return
         
-        new_goal = ReadingGoal(goal=goal_number, start_date=start_date.date(), end_date=end_date.date(), status='active')
+        new_goal = ReadingGoal(name=name, goal=goal_number, start_date=start_date.date(), end_date=end_date.date(), status='active')
         db_session.add(new_goal)
         db_session.commit()
-        click.echo("Your new reading goal has been set.")
+        click.echo("Your new reading goal, {name}, has been set successfully.")
     else:
         click.echo("No new reading goal added.")
     
@@ -138,10 +120,10 @@ def view_goal():
             duration = (goal.end_date - goal.start_date).days
             if goal.goal > 0 :
                 days_per_book = duration / goal.goal
-                click.echo(f'Goal ID: {goal.id}, Read {goal.goal} books, '
-                           f'Duration: {duration} days, '
-                           f'Days per book: {days_per_book:.2f}, '
-                           f'Start Date: {goal.start_date}, End Date: {goal.end_date}')
+                click.echo(f'Goal ID: {goal.id}. Goal Name: {goal.name}. Read {goal.goal} books '
+                           f'in {duration} days. '
+                           f'Spend {days_per_book:.2f} days per book. '
+                           f'Start on {goal.start_date}, and end by {goal.end_date}')
             else:
                 click.echo(f'Goal ID: {goal.id} has 0 books set, unable to calculate days per book.')
     else:
@@ -158,8 +140,8 @@ def edit_goal():
         click.echo(f'Current Goal: Read {goal.goal} books from {goal.start_date} to {goal.end_date}')
 
         new_goal_number = click.prompt('Enter the new number of books', type=int)
-        new_start_date = click.prompt('Enter the new start date (YYYY-MM-DD)', type=click.DateTime(formats=["%Y-%m-%d"]))
-        new_end_date = click.prompt('Enter the new end date (YYYY-MM-DD)', type=click.DateTime(formats=["%Y-%m-%d"]))
+        new_start_date = click.prompt('Enter the new start date (YYYY-MM-DD)', type=click.DateTime(formats=["%d-%m-%Y"]))
+        new_end_date = click.prompt('Enter the new end date (YYYY-MM-DD)', type=click.DateTime(formats=["%d-%m-%Y"]))
         #new_status = click.prompt('Enter the new status (active, completed, failed) (or press Enter to keep current)', type=str, default=goal.status)
 
         goal.goal = new_goal_number
@@ -234,7 +216,7 @@ def view_reviews():
         click.echo('All Reviews:')
         for review in reviews:
             book_name = review.book.name if review.book else "Unknown Book"
-            click.echo(f'Review ID: {review.id}, Book: {book_name}, Rating: {review.rating}, Notes: "{review.review}"')
+            click.echo(f'Review ID: {review.id}, Book: {book_name}, Rating: {review.rating}, Reviews: "{review.review}"')
     else:
         click.echo('No reviews found.')
 
@@ -254,7 +236,7 @@ def edit_reviews():
         click.echo(f"Current review text: {review.review}")
         
         new_rating = click.prompt("Enter new rating (1-5)", type=int)
-        new_review_text = click.prompt("Enter new notes", type=str)
+        new_review_text = click.prompt("Enter new review", type=str)
         
         review.rating = new_rating
         review.review = new_review_text
@@ -393,7 +375,7 @@ def book_mgt_menu():
     click.echo('Manage Books')
     click.echo('1: Add Book')
     click.echo('2: View Books')
-    click.echo('3: Edit Books')
+    click.echo('3: Add a Review')
     click.echo('4: Delete Books')
     click.echo('5: Main Menu')
     click.echo('6: Quit')
