@@ -8,3 +8,7 @@ user can:
 - write a note or review. done
 - get suggestions for what to read next. done
 - export their reading list . done
+
+future features
+user can:
+- update reading status
