@@ -92,7 +92,7 @@ def set_goal():
         new_goal = ReadingGoal(name=name, goal=goal_number, start_date=start_date.date(), end_date=end_date.date(), status='active')
         db_session.add(new_goal)
         db_session.commit()
-        click.echo("Your new reading goal, {name}, has been set successfully.")
+        click.echo("Your new reading goal has been set successfully.")
     else:
         click.echo("No new reading goal added.")
     
