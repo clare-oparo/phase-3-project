@@ -15,10 +15,6 @@ class Book(Base):
     current_page = Column(Integer)
     status = Column(String, nullable=False) # options are unread, in progress and complete
     reviews = relationship('Review', back_populates='book', cascade='all, delete-orphan')
-    
-
-    # one book can have many notes
-    # notes = relationship('Note', back_populates='book')
    
 
     @property 

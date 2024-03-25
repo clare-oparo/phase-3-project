@@ -283,6 +283,7 @@ def export_list():
 
     post_action_prompt()
 
+    
 #register commands
 cli.add_command(add_book)
 cli.add_command(view_books)
@@ -361,7 +362,7 @@ def book_mgt_menu():
     click.echo('1: Add Book')
     click.echo('2: View Books')
     click.echo('3: Add a Review')
-    click.echo('4: Delete Books')
+    click.echo('4: Delete Book')
     click.echo('5: Main Menu')
     click.echo('6: Quit')
     
